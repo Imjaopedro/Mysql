@@ -1,0 +1,69 @@
+
+show databases;
+
+create database secom;
+
+use secom;
+
+
+CREATE TABLE Generos (
+	idGeneros INT NOT NULL AUTO_INCREMENT,
+    descricao VARCHAR(100) NOT NULL,
+    PRIMARY KEY(idGeneros)
+);
+
+CREATE TABLE Diretores (
+	idDiretores INT NOT NULL AUTO_INCREMENT,
+    nome VARCHAR(100) NOT NULL,
+    PRIMARY KEY(idDiretores)
+);
+
+
+CREATE TABLE filmes (
+	idFilmes INT NOT NULL AUTO_INCREMENT, 
+    nome VARCHAR(100) NOT NULL,
+    anoLancamento INT,
+	idGeneros INT NOT NULL,
+    idDiretores INT,
+    FOREIGN KEY(idGeneros) REFERENCES Generos (idGeneros),
+    FOREIGN KEY(idDiretores) REFERENCES Diretores (idDiretores),
+	PRIMARY KEY(idFilmes)
+);
+
+INSERT INTO generos (idGeneros, descricao)
+VALUES (1, 'Terror');
+
+INSERT INTO generos (idGeneros, descricao)
+VALUES (2, 'Comédia');
+
+SELECT idGeneros, descricao FROM generos;
+
+INSERT INTO generos (descricao) VALUES ('Ação');
+
+UPDATE generos
+SET descricao = 'Horror'
+WHERE idGeneros = 1;
+
+DELETE FROM generos WHERE idGeneros = 3;
+
+INSERT INTO diretores (idDiretores, nome)
+VALUES (88, 'Jacinto');
+
+SELECT idDiretores, nome FROM diretores;
+
+SELECT * FROM filmes;
+
+INSERT INTO filmes
+(idFilmes, nome, anoLancamento, idGeneros, idDiretores)
+VALUES(1, 'Velozes e Furiosos X', 2022, 2, 88);
+
+
+
+SELECT * FROM filmes;
+
+-- Joins
+SELECT f.idFilmes, f.nome, 
+       f.idGeneros, g.descricao,  f.idDiretores, d.nome 
+FROM filmes f
+INNER JOIN generos g ON g.idGeneros = f.idGeneros
+INNER JOIN diretores d ON d.idDiretores = f.idDiretores;
